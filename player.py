@@ -2,16 +2,26 @@ import pygame
 import time
 
 
+def collision(x, y, sizeX, sizeY, x2, y2, sizeX2, sizeY2):
+    if (x + sizeX >= x2 and x2 + sizeX2 >= x) and (y + sizeY >= y2 and y2 + sizeY2 >= y):
+        return True
+    return False
+
+
 class Player:
     def __init__(self):
         print("Player created")
-        self.x = 0
+        self.x = 150
         self.y = 50
+        self.xr = 30
+        self.yr = 36
         self.s = 0
         self.t = time.perf_counter()
+        self.right = False
+        self.left = False
 
     def draw(self, screen):
-        pygame.draw.rect(screen, (100, 100, 100), (self.x, self.y, 50, 50))
+        pygame.draw.rect(screen, (255, 255, 255), (self.x, 200, self.xr, self.yr))
 
     def move(self, dx, dy):
         self.x += dx
@@ -20,14 +30,31 @@ class Player:
     def control(self, event):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT:
-                self.x += 1
+                self.right = True
             if event.key == pygame.K_LEFT:
-                self.x -= 1
+                self.left = True
+        elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_RIGHT:
+                self.right = False
+            if event.key == pygame.K_LEFT:
+                self.left = False
 
-    def fall(self):
+    def fall_move(self, platforms):
+        for pl in platforms:
+
+            if collision(self.x, self.y, self.xr, self.yr, pl.x, pl.y, pl.xr, pl.yr) and self.s > 0:
+                self.s = -180
+
         self.y += self.s * (time.perf_counter() - self.t)
-        self.s += 56 * (time.perf_counter() - self.t)
+        self.s += 40 * (time.perf_counter() - self.t)
         self.t = time.perf_counter()
+
+        if self.right:
+            self.x += 4
+        elif self.left:
+            self.x -= 4
+
+
 
 
 '''

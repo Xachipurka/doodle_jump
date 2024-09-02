@@ -5,9 +5,11 @@ class Platform:
     def __init__(self):
         self.x = 30
         self.y = 300
+        self.xr = 70
+        self.yr = 10
 
-    def draw(self, screen):
-        pygame.draw.rect(screen, (100, 100, 100), (self.x, self.y, 130, 50))
+    def draw(self, screen, scroll):
+        pygame.draw.rect(screen, (150, 150, 150), (self.x, self.y + scroll, self.xr, self.yr))
 
     def random(self):
         self.x = random.randrange(0, 330)
