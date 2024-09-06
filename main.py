@@ -9,8 +9,9 @@ screen = pygame.display.set_mode((470, 550))
 running = True
 
 pr = Player()
-pl = [Platform() for _ in range(30000)]
+pl = [Platform() for _ in range(10000)]
 ply = 500
+
 
 for p in pl:
     ply -= 70
